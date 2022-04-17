@@ -122,4 +122,74 @@ textarea {
 </div>
 
 </section>
+	
+<?php
+	
+if(isset($_POST['public'])) {
+	echo '<section class="notice"><h2>Steganographized Message</h2>';
+	
+	$public = $_POST['public'];
+	$public = mb_str_split($public);
+	
+	$half = round(count($public) / 2);
+	$private = $_POST['private'];
+	
+	$private = str2bin($private);
+
+	$private = bin2hidden($private);
+	
+	$private = wrap($private);
+	
+	$i = 0;
+	$tmp = array();
+	if(count($public) == 1) {
+		$tmp[0] = $public[0];
+		$tmp[1] = $private;
+	}
+	else {
+		foreach($public as $char) {
+			if($i == $half) {
+				$tmp[] = $private;
+			}
+			$tmp[] = $char;
+			$i++;
+		}
+	}
+	
+	$public = implode('', $tmp);
+	
+	echo '<textarea style="height: 5em;">'.$public.'</textarea>';
+	echo '<p>Copy the text above, and your private message will come along for the ride.</p>';    
+	echo '</div>';
+}
+
+if(isset($_POST['encoded'])) {
+	
+	$unwrapped = unwrap($_POST['encoded']);
+	
+	if(!$unwrapped) {
+		$message = bin2str(hidden2bin($_POST['encoded']));
+	}
+
+	else {
+		$message = bin2str(hidden2bin($unwrapped));
+	}
+	  
+	echo '<section class="notice"><h2>Private Message</h2>';
+	if(strlen($message) < 2) {
+		echo '<p class="alert"><i class="fas fa-exclamation-triangle"></i> No private message was found.</p>';
+	}
+	else {
+		echo '<p style="font-weight: bold;">'.htmlentities($message).'</p>';
+	}
+}
+
+?>
+
+</section>
+
+</main>
+
+</body>
+</html>
 

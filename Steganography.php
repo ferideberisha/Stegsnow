@@ -11,13 +11,13 @@ function str2bin($text){
 	return implode(' ', $bin);
 }
 function wrap($string) {
-	return "\xEF\xBB\xBF".$string."\xEF\xBB\xBF"; // Unicode Character 'ZERO WIDTH NON-BREAKING SPACE' (U+FEFF) 0xEF 0xBB 0xBF
+	return "\xEF\xBB\xBF".$string."\xEF\xBB\xBF"; 
 }
 
 function unwrap($string) {
 	$tmp = explode("\xEF\xBB\xBF", $string);
-	if(count($tmp) == 1) return false; // If the string doesn't contain the boundary, return false
-	return $tmp[1]; // Otherwise, return the unwrapped string
+	if(count($tmp) == 1) return false;
+	return $tmp[1]; 
 }
 
 function bin2str($bin){
@@ -29,16 +29,16 @@ function bin2str($bin){
 }
 
 function bin2hidden($str) {
-	$str = str_replace(' ', "\xE2\x81\xA0", $str); // Unicode Character 'WORD JOINER' (U+2060) 0xE2 0x81 0xA0
-	$str = str_replace('0', "\xE2\x80\x8B", $str); // Unicode Character 'ZERO WIDTH SPACE' (U+200B) 0xE2 0x80 0x8B
-	$str = str_replace('1', "\xE2\x80\x8C", $str); // Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C) 0xE2 0x80 0x8C
+	$str = str_replace(' ', "\xE2\x81\xA0", $str); 
+	$str = str_replace('0', "\xE2\x80\x8B", $str); 
+	$str = str_replace('1', "\xE2\x80\x8C", $str);
 	return $str;
 }
 
 function hidden2bin($str) {
-	$str = str_replace("\xE2\x81\xA0", ' ', $str); // Unicode Character 'WORD JOINER' (U+2060) 0xE2 0x81 0xA0
-	$str = str_replace("\xE2\x80\x8B", '0', $str); // Unicode Character 'ZERO WIDTH SPACE' (U+200B) 0xE2 0x80 0x8B
-	$str = str_replace("\xE2\x80\x8C", '1', $str); // Unicode Character 'ZERO WIDTH NON-JOINER' (U+200C) 0xE2 0x80
+	$str = str_replace("\xE2\x81\xA0", ' ', $str); 
+	$str = str_replace("\xE2\x80\x8B", '0', $str); 
+	$str = str_replace("\xE2\x80\x8C", '1', $str);
 	return $str;
 }
 
